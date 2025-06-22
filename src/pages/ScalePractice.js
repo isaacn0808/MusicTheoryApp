@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Settings as SettingsIcon } from 'lucide-react';
+import { Settings as SettingsIcon, Home as HomeIcon } from 'lucide-react';
 
 const SCALE_OPTIONS = [
   'C', 'C#', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B',
@@ -61,10 +61,14 @@ export default function ScalePractice() {
     const trimmed = note.trim().replace(/\s+/g, '');
     if (trimmed === '') return '';
     const first = trimmed[0].toUpperCase();
-    const restRaw = trimmed.slice(1).replace(/♯/g, '#').replace(/♭/g, 'b');
+    const restRaw = trimmed
+      .slice(1)
+      .replace(/♯/g, '#')
+      .replace(/♭/g, 'b');
     let rest = '';
-    if (restRaw.startsWith('#')) rest = '#';
-    else if (restRaw.toLowerCase().startsWith('b')) rest = 'b';
+    const lower = restRaw.toLowerCase();
+    if (lower.startsWith('#') || lower.startsWith('s')) rest = '#';
+    else if (lower.startsWith('b')) rest = 'b';
     return first + rest;
   };
 
@@ -143,6 +147,15 @@ export default function ScalePractice() {
         <SettingsIcon className="w-6 h-6" />
       </button>
 
+      {/* Home Button */}
+      <Link
+        to="/"
+        className="absolute top-4 left-4 p-2 text-gray-600 hover:text-gray-800"
+        aria-label="Home"
+      >
+        <HomeIcon className="w-6 h-6" />
+      </Link>
+
       <h1 className="text-3xl font-bold">Scale Practice</h1>
 
       {/* Prompt Display */}
@@ -194,13 +207,6 @@ export default function ScalePractice() {
           Next
         </button>
       </div>
-
-      <Link
-        to="/"
-        className="mt-auto px-4 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded hover:bg-blue-50"
-      >
-        Back to Home
-      </Link>
 
       {/* Settings Modal */}
       {showSettings && (
