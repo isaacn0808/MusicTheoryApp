@@ -53,7 +53,7 @@ export default function ScalePractice() {
     const intervals = mode === 'Major' ? MAJOR_INTERVALS : MINOR_INTERVALS;
     const idx = (degree - 1) % 7;
     const noteSemi = (rootSemi + intervals[idx]) % 12;
-    const preferFlats = root.includes('b');
+    const preferFlats = root.includes('b') || root === 'F';
     return getNoteName(noteSemi, preferFlats);
   };
 
